@@ -1,6 +1,6 @@
 var bcrypt = require('bcrypt');
 const password = 'goyyal'
-const saltRounds = 13;
+
 
 
 if (process.argv[2] == 'help') {
@@ -9,13 +9,15 @@ if (process.argv[2] == 'help') {
     console.log("-----------------------------------------------------");
     console.log("Example");
     console.log("-------------");
-    console.log("node index.js test 'goyyyal' '$2a$13$Kx5OPoh7/ktLj.FAWxsS1.VR.bMQtU9lr7Ws7SGD17VfFeM06tN/K'");
+    console.log("node index.js test 'goyyyal' '$2a$13$Kx5OPoh7/ktLj.FAWxsS1.VR.bMQtU9lr7Ws7SGD17VfFeM06tN/K' ");
     console.log("-----------------------------------------------------\n");
-    console.log("2.You can get for a hashed value for a word");
+    console.log("2.You can get for a hashed value for a word. Default is 13 if none is added");
     console.log("-----------------------------------------------------");
     console.log("Example");
     console.log("-------------");
     console.log("node index.js hash 'goyyal'\n");
+    console.log("-------------");
+    console.log("node index.js hash 'goyyal' 5 \n");
     console.log("***********************************************************************************************");
 } else if(process.argv[2] == 'test'){
     console.log(`Testing..${process.argv[3]}\t Against.. ${process.argv[4]} hash`);
@@ -30,9 +32,12 @@ if (process.argv[2] == 'help') {
 
 } else if (process.argv[2] == 'hash'){
     console.log(`Hashing..${process.argv[3]}\t`);
+    const saltRounds = Number(process.argv[4]) ? Number(process.argv[4]) : 13;
+    console.log(`Using ${saltRounds} Salt Rounds`)
+    console.log(typeof saltRounds)
     bcrypt.hash(process.argv[3], saltRounds, function(err, hash) {
         if(err){
-            console.log("err")
+            console.log(err)
             return err
         }
         console.log(hash)
